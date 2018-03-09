@@ -1,23 +1,24 @@
 #include <vector>
 #include <string>
+#include <iostream>
 
 using namespace std;
 
 class Imprimante
 {
 private:
-	static Imprimante* instance;
+	static Imprimante* pInstance;
 	string nomFichier;
 
 public:
-	static Imprimante* Imprimante::Instance()
+	static Imprimante* instance()
 	{
-		if (instance == 0)
+		if (pInstance == 0)
 		{
-			instance = new Imprimante();
+			pInstance = new Imprimante();
 		}
 
-		return instance;
+		return pInstance;
 	}
 
 	Imprimante() { nomFichier = "truc.txt"; };
