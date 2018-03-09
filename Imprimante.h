@@ -13,10 +13,7 @@ private:
 public:
 	static Imprimante* instance()
 	{
-		if (pInstance == 0)
-		{
-			pInstance = new Imprimante();
-		}
+		if (pInstance == 0)	pInstance = new Imprimante();
 
 		return pInstance;
 	}
