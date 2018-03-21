@@ -14,8 +14,9 @@ void Solide1D::etapeMetropolis()
 	for(int i=0; i<largeur; i++)
 	{
 		//Calcul de l'énergie si on pivote le spin.
-		deltaE = (champB + (element[(i-1)%largeur] + element[(i+1)%largeur])*couplageJ)*2*element[i];
-
+		deltaE = (champB + (element[(i-1)%largeur] + element[(i+1)%largeur])*couplageJ)*2.0*element[i];
+cout<<"("<<(i-1)%largeur << ";" << (i+1)%largeur<<")";
+cout<<(element[i]<0?".":"o")<<" ";
 		//On décide de renverser ou non le spin.
 		if(deltaE<0.0)
 		{
@@ -23,14 +24,14 @@ void Solide1D::etapeMetropolis()
 			energie += deltaE;
 			momentMag += element[i];
 		}
-		else if(exp(-1*deltaE*100000/(temperature*8.6173303)) > (rand()%1))	//Nombres en dur = constante de Boltzmann
+		else if(exp(-1*deltaE*100000.0/(temperature*8.6173303)) > (rand()%1))	//Nombres en dur = constante de Boltzmann
 		{
 			element[i]*=-1;
 			energie += deltaE;
 			momentMag += element[i];
 		}
 	}
-cout<<momentMag<<endl;
+cout<<endl<<endl;
 }
 
 void Solide1D::initialisation()
