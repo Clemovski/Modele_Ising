@@ -2,10 +2,14 @@
 #include <fstream>
 #include <string>
 
-void Imprimante::ecrire()
-{/*
+
+//Définition de l'instance
+Imprimante* Imprimante::pInstance;
+
+Imprimante::Imprimante()
+{
+	nomFichier = "mesures.txt";
 	//Ouverture du fichier
-	fstream fichier;
 	fichier.open(nomFichier.c_str(), ios::out);
 	if(!fichier)
 	{
@@ -13,36 +17,24 @@ void Imprimante::ecrire()
 		exit(1);
 	}
 
-	//On écrit les valeurs.
-	int longeur = valeurs.size();
-	for(int i = 0; i<longeur; i++)
-	{
-		fichier << valeurs[i] << endl;
-	}
-
-	//On ferme le fichier.
-	fichier.close();*/
+	//On écrit les entêtes.
+	fichier << "#Temperature(K)	ChampB(T)	EnergieMoy(J)	MomentMagMoyen	Cv(J/K)	Ksi" << endl;
 }
 
-void Imprimante::lire()
-{/*
-	//Ouverture du fichier.
-	fstream fichier;
-	fichier.open(nomFichier.c_str(), ios::in);
-	if(!fichier)
-	{
-		cout << "Fichier de lecture foireux. Abanonnez le navire !" << endl;
-		exit(1);
-	}
+void Imprimante::chargement(int pourcent)
+{
+	std::cout<<"\r"<<pourcent<<"%";
+	std::cout.flush();
+}
 
-	//Lecture
-	float nombre = 0;
-	while(!fichier.eof())
-	{
-		fichier >> nombre;
-		valeursLues.push_back(nombre);
-	}
+Imprimante::~Imprimante()
+{
+	//On ferme le fichier.
+	fichier.close();
+}
 
-	//Fermeture du fchier.
-	fichier.close();*/
+void Imprimante::ecrire(double temperature, double champMag, double eMoy, double mMoy,double cv, double ksi)
+{
+	//On écrit les valeurs.
+	fichier << temperature << "	" << champMag << "	" << eMoy << "	" << mMoy << "	" << cv << "	" << ksi << endl;
 }

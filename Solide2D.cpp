@@ -2,32 +2,34 @@
 #include <stdlib.h>	//Pour l'utilisation de rand().
 #include <math.h>	//Pour l'exponentielle
 #include <iostream>	//Chargement
-#include "Solide1D.h"
+#include "Solide2D.h"
 #include "Imprimante.h"	//Pour écrire les données dans un fichier.
 
 
-void Solide1D::etapeMetropolis()
+void Solide2D::etapeMetropolis()
 {
 	double deltaE = 0.0;	//Différence d'énergie lorsqu'on retourne un spin particulier.
-	int i = rand()%largeur;	//On tire un spin i au hasard dans la chaîne.
+	int i = rand()%largeur;
+	int j = rand()%largeur;	//On tire un spin i,j au hasard dans la chaîne.
 
 //Calcul de l'énergie si on pivote le spin.
-	deltaE = ((element[(i-1<0?largeur-1:i-1)] + element[(i+1)%largeur])
-		*couplageJ*4.135667662/1000000000000000.0)*2.0*element[i]	//Constante de Planck en eV.s
+	deltaE = ((element[(i-1<0?largeur-1:i-1)][j] + element[(i+1)%largeur][j]
+			+ element[i][(j-1<0?largeur-1:j-1)] + element[i][(j+1)%largeur])	//Essayer d'optim l'accès aux voisins.
+		*couplageJ*4.135667662/1000000000000000.0)*2.0*element[i][j]	//Constante de Planck en eV.s (à définir ailleurs pour optim)
 		+ champB*magneton;
 
 //On décide de renverser ou non le spin.
 	if(deltaE<0.0)
 	{
-		element[i]*=-1;
+		element[i][j]*=-1;
 		energie += deltaE;
-		momentMag += 2*element[i];	//Entre un sou que j'ai et un sou que j'ai pas y'a deux sous d'écart.
+		momentMag += 2*element[i][j];	//Entre un sou que j'ai et un sou que j'ai pas y'a deux sous d'écart.
 	}
 	else if(exp(-1*deltaE/(temperature*8.6173303E-5)) > ((double)rand()/RAND_MAX))	//Nombres en dur = constante de Boltzmann en eV/K
 	{
-		element[i]*=-1;
+		element[i][j]*=-1;
 		energie += deltaE;
-		momentMag += 2*element[i];
+		momentMag += 2*element[i][j];
 	}
 }
 
@@ -35,14 +37,22 @@ void Solide1D::etapeMetropolis()
 
 
 
-void Solide1D::initialisation()
+void Solide2D::initialisation()
 {
 	srand (time(NULL));
 
 	etapes = 10000.0*largeur;
 
 //Remplissage initial
-	for(int i=0; i<largeur; i++)	{ element.push_back(((rand()%10)<5)?-1:1); }	//On remplit avec des + ou -1 aléatoirement.
+	vector<char> buffer;	//Tableau qu'on accrochera à chaque ligne de element.
+	for(int i=0; i<largeur; i++)
+	{
+		for(int j=0; j<largeur; j++)
+		{
+			buffer.push_back( (( (rand()%10) <5)?-1:1) );	//On remplit avec des + ou -1 aléatoirement.
+		}
+		element.push_back(buffer);
+	}
 
 //Calcul des grandeurs initiales
 	momentMag = 0.0;
@@ -52,11 +62,16 @@ void Solide1D::initialisation()
 
 	for(int i=0; i<limite; i++)
 	{
-	//Calcul de l'énergie.
-		energieMag += element[i];
-		energieCoup += element[i]*(element[((i-1)%largeur + largeur) % largeur] + element[(i+1)%largeur]);
+		for(int j=0; j<limite; j++)
+		{
+		//Calcul de l'énergie.
+			energieMag += element[i][j];
+			energieCoup += element[i][j]*(element[i][((j-1)%largeur + largeur) % largeur] + element[i][(j+1)%largeur]
+							+ element[((i-1)%largeur + largeur) % largeur][j] + element[(i+1)%largeur][j]);
+		}
 	}
-	energieMag += element[limite];
+
+	energieMag += element[limite][limite];
 	momentMag = energieMag;
 	energieMag*=champB*magneton;
 	energieCoup*=couplageJ;
@@ -68,7 +83,8 @@ void Solide1D::initialisation()
 
 
 
-void Solide1D::evolutionThermique(double tmin, double tmax,unsigned int nbEtapes)
+
+void Solide2D::evolutionThermique(double tmin, double tmax,unsigned int nbEtapes)
 {
 	double step = (tmax-tmin) / nbEtapes;
 	temperature = tmin;
@@ -83,6 +99,7 @@ void Solide1D::evolutionThermique(double tmin, double tmax,unsigned int nbEtapes
 
 	//Mise à l'équilibre du système.
 		for(int j=0; j<etapes; j++)	etapeMetropolis();
+
 
 	//Calcul des grandeurs utiles.
 		for(int j=0; j<etapes; j++)
