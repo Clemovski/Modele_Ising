@@ -13,9 +13,9 @@ void Solide2D::etapeMetropolis()
 	int j = rand()%largeur;	//On tire un spin i,j au hasard dans la chaîne.
 
 //Calcul de l'énergie si on pivote le spin.
-	deltaE = ((element[(i-1<0?largeur-1:i-1)][j] + element[(i+1)%largeur][j]
-			+ element[i][(j-1<0?largeur-1:j-1)] + element[i][(j+1)%largeur])	//Essayer d'optim l'accès aux voisins.
-		*couplageJ*8.6173303E-5)*2.0*element[i][j]	//Constante de Planck en eV.s (à définir ailleurs pour optim)
+	deltaE = ((element[(i+limite)%largeur][j] + element[(i+1)%largeur][j]
+			+ element[i][(j+limite)%largeur] + element[i][(j+1)%largeur])
+		*couplageJ*4.135667662E-15)*2.0*element[i][j]	//Constante de Planck en eV.s
 		+ champB*magneton;
 
 //On décide de renverser ou non le spin.
@@ -49,29 +49,29 @@ void Solide2D::initialisation()
 	{
 		for(int j=0; j<largeur; j++)
 		{
-			buffer.push_back( (( (rand()%10) <5)?-1:1) );	//On remplit avec des + ou -1 aléatoirement.
+			buffer.push_back((((rand()/RAND_MAX)<0.5)?-1:1) );	//On remplit avec des + ou -1 aléatoirement.
 		}
 		element.push_back(buffer);
 	}
 
 //Calcul des grandeurs initiales
 	momentMag = 0.0;
+	energie = 0.0;
 	double energieMag = 0.0;	//Energie due au champ B
 	double energieCoup = 0.0;	//Energie due au couplage entre les électrons
-	unsigned int limite = largeur - 1;	//Pour ne pas compter deux fois la première intéraction on observe la chaîne jusqu'à largeur-1.
 
-	for(int i=0; i<limite; i++)
+	for(int i=0; i<limite; i++)	//Pour ne pas compter deux fois la première intéraction on observe la chaîne jusqu'à largeur-1.
 	{
 		for(int j=0; j<limite; j++)
 		{
 		//Calcul de l'énergie.
 			energieMag += element[i][j];
-			energieCoup += element[i][j]*(element[i][((j-1)%largeur + largeur) % largeur] + element[i][(j+1)%largeur]
-							+ element[((i-1)%largeur + largeur) % largeur][j] + element[(i+1)%largeur][j]);
+			energieCoup += element[i][j]*(element[i][(j+limite) % largeur] + element[i][(j+1)%largeur]
+							+ element[(i+limite) % largeur][j] + element[(i+1)%largeur][j]);
 		}
 	}
 
-	energieMag += element[limite][limite];
+	energieMag += element[limite][limite];	//On rajoute le dernier élément qu'on a pas compté.
 	momentMag = energieMag;
 	energieMag*=champB*magneton;
 	energieCoup*=couplageJ;

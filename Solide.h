@@ -4,7 +4,8 @@
 class Solide
 {
 protected:
-	unsigned int largeur;	//N
+	unsigned int largeur;	//N = Nombre d'élément par côté du solide
+	unsigned int limite;	//largeur-1. Redondant mais sert à accélérer le calcul.
 	double couplageJ;	//J
 	double champB;		//B
 	double magneton;	//µ = Magneton de Bohr en eV/Tesla
@@ -33,6 +34,7 @@ public:
 		{
 			kbT = temperature*8.6173303E-5;
 			magneton = 0.000057;
+			limite = largeur-1;
 		}
 	~Solide()	{}
 };
