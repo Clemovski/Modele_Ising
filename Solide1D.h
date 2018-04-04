@@ -12,8 +12,8 @@ private:
 	void etapeMetropolis();	//Fait changer de sens un spin du système selon la méthode métropolis. Une seule itération.
 
 public:
-	Solide1D(unsigned int largeur_var =2, double couplageJ_var =0, double magneton_var =0, double thermostat =0, double champB_var =0)
-		:Solide(largeur_var, couplageJ_var, magneton_var, thermostat, champB_var)
+	Solide1D(unsigned int largeur_var =2, double couplageJ_var =0, double thermostat =0, double champB_var =0)
+		:Solide(largeur_var, couplageJ_var, thermostat, champB_var)
 		{ initialisation(); }
 	~Solide1D()	{}
 

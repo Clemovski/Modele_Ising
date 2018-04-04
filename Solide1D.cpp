@@ -13,7 +13,7 @@ void Solide1D::etapeMetropolis()
 
 //Calcul de l'énergie si on pivote le spin.
 	deltaE = ((element[(i-1<0?largeur-1:i-1)] + element[(i+1)%largeur])
-		*couplageJ*4.135667662/1000000000000000.0)*2.0*element[i]	//Constante de Planck en eV.s
+		*couplageJ*8.6173303E-5)*2.0*element[i]	//Constante de Planck en eV.s
 		+ champB*magneton;
 
 //On décide de renverser ou non le spin.
@@ -23,7 +23,7 @@ void Solide1D::etapeMetropolis()
 		energie += deltaE;
 		momentMag += 2*element[i];	//Entre un sou que j'ai et un sou que j'ai pas y'a deux sous d'écart.
 	}
-	else if(exp(-1*deltaE/(temperature*8.6173303E-5)) > ((double)rand()/RAND_MAX))	//Nombres en dur = constante de Boltzmann en eV/K
+	else if(exp(-1*deltaE/kbT) > ((double)rand()/RAND_MAX))	//Nombres en dur = constante de Boltzmann en eV/K
 	{
 		element[i]*=-1;
 		energie += deltaE;
@@ -71,7 +71,7 @@ void Solide1D::initialisation()
 void Solide1D::evolutionThermique(double tmin, double tmax,unsigned int nbEtapes)
 {
 	double step = (tmax-tmin) / nbEtapes;
-	temperature = tmin;
+	setTemperature(tmin);
 
 //Evolution du système.
 	for(int i=0; i<nbEtapes; i++)
@@ -103,10 +103,10 @@ void Solide1D::evolutionThermique(double tmin, double tmax,unsigned int nbEtapes
 
 	//Ecriture des valeurs moyennes, de Cv et ksi dans un fichier.
 		Imprimante::instance()->ecrire(temperature, champB, energieMoy, momentMagMoy
-			, sigmaEnergie/(temperature*temperature*8.6173303E-5)
-			, sigmaMomentMag/(temperature*temperature*8.6173303E-5));
+			, sigmaEnergie/(temperature*kbT)
+			, sigmaMomentMag/(temperature*kbT));
 
-		temperature += step;
+		setTemperature(temperature+step);
 
 		Imprimante::instance()->chargement(int(100*(i+1)/nbEtapes));
 	}
