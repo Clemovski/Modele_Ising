@@ -18,5 +18,5 @@ public:
 	~Solide2D()	{}
 
 	//Fait évoluer la température du système de tmin à tmax sur plusieurs étapes.
-	void evolutionThermique(double tmin, double tmax,unsigned int etapes);
+	void evolutionThermique(double tmin, double tmax,unsigned int nbEtapes);
 };

@@ -35,7 +35,10 @@ public:
 			kbT = temperature*8.6173303E-5;
 			magneton = 0.000057;
 			limite = largeur-1;
+			srand (time(NULL));
+			etapes = 10000.0*largeur;
 		}
+
 	~Solide()	{}
 };
 

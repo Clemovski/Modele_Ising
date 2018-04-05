@@ -25,7 +25,7 @@ void Solide2D::etapeMetropolis()
 		energie += deltaE;
 		momentMag += 2*element[i][j];	//Entre un sou que j'ai et un sou que j'ai pas y'a deux sous d'écart.
 	}
-	else if(exp(-1*deltaE/kbT) > ((double)rand()/RAND_MAX))	//Nombres en dur = constante de Boltzmann en eV/K
+	else if(exp(-1*deltaE/kbT) > ((double)rand()/RAND_MAX))
 	{
 		element[i][j]*=-1;
 		energie += deltaE;
@@ -39,14 +39,10 @@ void Solide2D::etapeMetropolis()
 
 void Solide2D::initialisation()
 {
-	srand (time(NULL));
-
-	etapes = 10000.0*largeur;
-
 //Remplissage initial
-	vector<char> buffer;	//Tableau qu'on accrochera à chaque ligne de element.
 	for(int i=0; i<largeur; i++)
 	{
+		vector<char> buffer;	//Tableau qu'on accrochera à chaque ligne de element.
 		for(int j=0; j<largeur; j++)
 		{
 			buffer.push_back((((rand()/RAND_MAX)<0.5)?-1:1) );	//On remplit avec des + ou -1 aléatoirement.
@@ -74,7 +70,7 @@ void Solide2D::initialisation()
 	energieMag += element[limite][limite];	//On rajoute le dernier élément qu'on a pas compté.
 	momentMag = energieMag;
 	energieMag*=champB*magneton;
-	energieCoup*=couplageJ;
+	energieCoup*=couplageJ*4.135667662E-15;
 
 	energie = -(energieCoup+energieMag);
 }
@@ -84,8 +80,9 @@ void Solide2D::initialisation()
 
 
 
-void Solide2D::evolutionThermique(double tmin, double tmax,unsigned int nbEtapes)
+void Solide2D::evolutionThermique(double tmin, double tmax,unsigned int nbEtapes=0)
 {
+	if(nbEtapes==0)	nbEtapes = abs(tmax-tmin);
 	double step = (tmax-tmin) / nbEtapes;
 	setTemperature(tmin);
 

@@ -23,7 +23,10 @@ Imprimante::Imprimante()
 
 void Imprimante::chargement(int pourcent)
 {
-	std::cout<<"\r"<<pourcent<<"%";
+	int nBarres = static_cast<int>((pourcent/5));
+	std::cout<<"\r"<<"[";
+	for(int i=1; i<=20; i++)	std::cout<<((i<=nBarres)?"=":" ");
+	std::cout<<"]" << pourcent<<"%";
 	std::cout.flush();
 }
 
