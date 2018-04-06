@@ -16,7 +16,7 @@ void Solide2D::etapeMetropolis()
 	deltaE = ((element[(i+limite)%largeur][j] + element[(i+1)%largeur][j]
 			+ element[i][(j+limite)%largeur] + element[i][(j+1)%largeur])
 		*couplageJ*4.135667662E-15)*2.0*element[i][j]	//Constante de Planck en eV.s
-		+ champB*magneton;
+		+ champB*permeabilite;
 
 //On décide de renverser ou non le spin.
 	if(deltaE<0.0)
@@ -69,8 +69,8 @@ void Solide2D::initialisation()
 
 	energieMag += element[limite][limite];	//On rajoute le dernier élément qu'on a pas compté.
 	momentMag = energieMag;
-	energieMag*=champB*magneton;
-	energieCoup*=couplageJ*4.135667662E-15;
+	energieMag*=champB*permeabilite;
+	energieCoup*=couplageJ*4.135667662E-15;	//Constante de Planck en eV.s
 
 	energie = -(energieCoup+energieMag);
 }
@@ -95,7 +95,7 @@ void Solide2D::evolutionThermique(double tmin, double tmax,unsigned int nbEtapes
 		sigmaMomentMag = 0.0;
 
 	//Mise à l'équilibre du système.
-		for(int j=0; j<etapes; j++)	etapeMetropolis();
+		//for(int j=0; j<etapes; j++)	etapeMetropolis();
 
 
 	//Calcul des grandeurs utiles.

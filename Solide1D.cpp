@@ -14,7 +14,7 @@ void Solide1D::etapeMetropolis()
 //Calcul de l'énergie si on pivote le spin.
 	deltaE = ((element[(i+limite)%largeur] + element[(i+1)%largeur])
 		*couplageJ*4.135667662E-15)*2.0*element[i]	//Constante de Planck en eV.s
-		+ champB*magneton;
+		+ champB*permeabilite;
 
 //On décide de renverser ou non le spin.
 	if(deltaE<0.0)
@@ -54,7 +54,7 @@ void Solide1D::initialisation()
 	}
 	energieMag += element[limite];	//On rajoute le dernier élément qu'on a pas compté.
 	momentMag = energieMag;
-	energieMag*=champB*magneton;
+	energieMag*=champB*permeabilite;
 	energieCoup*=couplageJ*4.135667662E-15;
 
 	energie = -(energieCoup+energieMag);
@@ -80,15 +80,15 @@ void Solide1D::evolutionThermique(double tmin, double tmax,unsigned int nbEtapes
 		sigmaMomentMag = 0.0;
 
 	//Mise à l'équilibre du système.
-		for(int j=0; j<etapes; j++)	etapeMetropolis();
+		//for(int j=0; j<etapes; j++)	etapeMetropolis();
 
 	//Calcul des grandeurs utiles.
 		for(int j=0; j<etapes; j++)
 		{
 			energieMoy += energie;
-			sigmaEnergie += energie*energie;
+			sigmaEnergie += energie*energie;	//Calcule <E²> pour l'instant.
 			momentMagMoy += momentMag;
-			sigmaMomentMag += momentMag*momentMag;
+			sigmaMomentMag += momentMag*momentMag;	//Calcule <M²>
 			etapeMetropolis();
 		}
 
@@ -129,7 +129,7 @@ void Solide1D::evolutionMagnetique(double bmin, double bmax,unsigned int nbEtape
 		sigmaMomentMag = 0.0;
 
 	//Mise à l'équilibre du système.
-		for(int j=0; j<etapes; j++)	etapeMetropolis();
+		//for(int j=0; j<etapes; j++)	etapeMetropolis();
 
 	//Calcul des grandeurs utiles.
 		for(int j=0; j<etapes; j++)

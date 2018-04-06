@@ -18,7 +18,7 @@ Imprimante::Imprimante()
 	}
 
 	//On écrit les entêtes.
-	fichier << "#Temperature(K)	ChampB(T)	EnergieMoy(J)	MomentMagMoyen	Cv(J/K)	Ksi" << endl;
+	fichier << "#Temperature(K)	ChampB(T)	EnergieMoy(eV)	MomentMagMoyen	Cv(J/K)	Ksi" << endl;
 }
 
 void Imprimante::chargement(int pourcent)
