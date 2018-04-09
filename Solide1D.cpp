@@ -1,7 +1,6 @@
 #include <time.h>	//time(NULL) pour initialisation des variables aléatoires
 #include <stdlib.h>	//Pour l'utilisation de rand().
-#include <math.h>	//Pour l'exponentielle
-#include <iostream>	//Chargement
+#include <math.h>	//Pour l'exponentielle et la valeur absolue
 #include "Solide1D.h"
 #include "Imprimante.h"	//Pour écrire les données dans un fichier.
 
@@ -14,7 +13,7 @@ void Solide1D::etapeMetropolis()
 //Calcul de l'énergie si on pivote le spin.
 	deltaE = ((element[(i+limite)%largeur] + element[(i+1)%largeur])
 		*couplageJ*4.135667662E-15)*2.0*element[i]	//Constante de Planck en eV.s
-		+ champB*permeabilite;
+		+ champB*5.7883817555E-5;
 
 //On décide de renverser ou non le spin.
 	if(deltaE<0.0)
@@ -23,7 +22,7 @@ void Solide1D::etapeMetropolis()
 		energie += deltaE;
 		momentMag += 2*element[i];	//Entre un sou que j'ai et un sou que j'ai pas y'a deux sous d'écart.
 	}
-	else if(exp(-1*deltaE/kbT) > ((double)rand()/RAND_MAX))
+	else if(exp(-1*deltaE/kbT) > (rand()/RAND_MAX))
 	{
 		element[i]*=-1;
 		energie += deltaE;
@@ -54,7 +53,7 @@ void Solide1D::initialisation()
 	}
 	energieMag += element[limite];	//On rajoute le dernier élément qu'on a pas compté.
 	momentMag = energieMag;
-	energieMag*=champB*permeabilite;
+	energieMag*=champB*5.7883817555E-5;
 	energieCoup*=couplageJ*4.135667662E-15;
 
 	energie = -(energieCoup+energieMag);
