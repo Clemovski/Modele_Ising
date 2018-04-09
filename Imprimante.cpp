@@ -8,17 +8,17 @@ Imprimante* Imprimante::pInstance;
 
 Imprimante::Imprimante()
 {
-	nomFichier = "mesures.txt";
+	nomfichierEcriture = "mesures.txt";
 	//Ouverture du fichier
-	fichier.open(nomFichier.c_str(), ios::out);
-	if(!fichier)
+	fichierEcriture.open(nomfichierEcriture.c_str(), ios::out);
+	if(!fichierEcriture)
 	{
 		cout << "Fichier d\'ecriture foireux. Abanonnez le navire !" << endl;
 		exit(1);
 	}
 
 	//On écrit les entêtes.
-	fichier << "#Temperature(K)	ChampB(T)	EnergieMoy(eV)	MomentMagMoyen	Cv(J/K)	Ksi" << endl;
+	fichierEcriture << "#Temperature(K)	ChampB(T)	EnergieMoy(eV)	MomentMagMoyen	Cv(J/K)	Ksi" << endl;
 }
 
 void Imprimante::chargement(int pourcent)
@@ -33,11 +33,37 @@ void Imprimante::chargement(int pourcent)
 Imprimante::~Imprimante()
 {
 	//On ferme le fichier.
-	fichier.close();
+	fichierEcriture.close();
 }
 
 void Imprimante::ecrire(double temperature, double champMag, double eMoy, double mMoy,double cv, double ksi)
 {
 	//On écrit les valeurs.
-	fichier << temperature << "	" << champMag << "	" << eMoy << "	" << mMoy << "	" << cv << "	" << ksi << endl;
+	fichierEcriture << temperature << "	" << champMag << "	" << eMoy << "	" << mMoy << "	" << cv << "	" << ksi << endl;
+}
+
+void Imprimante::lire(string nomFichier)
+{
+//Ouverture du fichier
+	fstream fichierLecture;
+	fichierLecture.open(nomFichier.c_str(), ios::in);
+	if(!fichierLecture)
+	{
+		cout << "Fichier de lecture foireux. Abanonnez le navire !" << endl;
+		exit(1);
+	}
+
+double nombre=0.0;
+string truc("");
+//Lecture
+	getline(fichierLecture, truc);
+	while(!fichierLecture.eof())
+	{
+		fichierLecture>>nombre;
+		cout<<nombre<<endl;
+	}
+
+//Fermeture du fichier
+	fichierLecture.close();
+
 }

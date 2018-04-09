@@ -9,8 +9,8 @@ class Imprimante
 {
 private:
 	static Imprimante* pInstance;
-	string nomFichier;
-	fstream fichier;
+	string nomfichierEcriture;
+	fstream fichierEcriture;
 
 public:
 	static Imprimante* instance()
@@ -22,6 +22,9 @@ public:
 
 	Imprimante();
 	~Imprimante();
+
+	//Lit dans un fichier les paramètres qui devront être utilisés pour le programme.
+	void lire(string nomFichierLecture);
 
 	//Ecrit dans un fichier les valeurs passée en argument.
 	void ecrire(double temperature, double champMag, double eMoy, double mMoy,double cv, double ksi);

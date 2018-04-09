@@ -13,7 +13,9 @@ int main()
 
 	Solide1D solide(largeur, couplageJ, permeabilite, temperature, champB);
 	//solide.evolutionThermique(10000.0, 1.0, 1000);
-	solide.evolutionMagnetique(-5.0, 5.0, 1000);
+	//solide.evolutionMagnetique(-5.0, 5.0, 1000);
+
+	Imprimante::instance()->lire("parametres.txt");
 
 	return 0;
 }
