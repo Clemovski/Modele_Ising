@@ -53,12 +53,12 @@ void Imprimante::lire(string nomFichier)
 		exit(1);
 	}
 
-double nombre=0.0;
-string truc("");
+	string champ("");
+	double nombre=0.0;
 //Lecture
-	getline(fichierLecture, truc);
-	while(!fichierLecture.eof())
+	while(fichierLecture>>champ)
 	{
+		cout<<champ<<endl;
 		fichierLecture>>nombre;
 		cout<<nombre<<endl;
 	}
