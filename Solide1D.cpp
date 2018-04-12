@@ -1,8 +1,5 @@
-#include <time.h>	//time(NULL) pour initialisation des variables aléatoires
-#include <stdlib.h>	//Pour l'utilisation de rand().
 #include <math.h>	//Pour l'exponentielle et la valeur absolue
 #include "Solide1D.h"
-#include "Imprimante.h"	//Pour écrire les données dans un fichier.
 
 
 void Solide1D::etapeMetropolis()
@@ -64,98 +61,6 @@ void Solide1D::initialisation()
 
 
 
-void Solide1D::evolutionThermique(double tmin, double tmax,unsigned int nbEtapes=0)
-{
-	if(nbEtapes==0)	nbEtapes = abs(tmax-tmin);
-	double step = (tmax-tmin) / nbEtapes;
-	setTemperature(tmin);
 
-//Evolution du système.
-	for(int i=0; i<nbEtapes; i++)
-	{
-		energieMoy = 0.0;
-		sigmaEnergie = 0.0;
-		momentMagMoy = 0.0;
-		sigmaMomentMag = 0.0;
-
-	//Mise à l'équilibre du système.
-		//for(int j=0; j<etapes; j++)	etapeMetropolis();
-
-	//Calcul des grandeurs utiles.
-		for(int j=0; j<etapes; j++)
-		{
-			energieMoy += energie;
-			sigmaEnergie += energie*energie;	//Calcule <E²> pour l'instant.
-			momentMagMoy += momentMag;
-			sigmaMomentMag += momentMag*momentMag;	//Calcule <M²>
-			etapeMetropolis();
-		}
-
-		energieMoy = energieMoy/etapes;
-		momentMagMoy = momentMagMoy / etapes;
-		sigmaEnergie /= etapes;
-		sigmaMomentMag /= etapes;
-		sigmaEnergie -= energieMoy*energieMoy;
-		sigmaMomentMag -= momentMagMoy*momentMagMoy;
-
-	//Ecriture des valeurs moyennes, de Cv et ksi dans un fichier.
-		Imprimante::instance()->ecrire(temperature, champB, energieMoy, momentMagMoy
-			, sigmaEnergie/(temperature*kbT)
-			, sigmaMomentMag/(temperature*kbT));
-
-		setTemperature(temperature+step);
-
-		Imprimante::instance()->chargement(int(100*(i+1)/nbEtapes));
-	}
-}
-
-
-
-
-
-void Solide1D::evolutionMagnetique(double bmin, double bmax,unsigned int nbEtapes=0)
-{
-	if(nbEtapes==0)	nbEtapes = abs(bmax-bmin);
-	double step = (bmax-bmin) / nbEtapes;
-	champB = bmin;
-
-//Evolution du système.
-	for(int i=0; i<nbEtapes; i++)
-	{
-		energieMoy = 0.0;
-		sigmaEnergie = 0.0;
-		momentMagMoy = 0.0;
-		sigmaMomentMag = 0.0;
-
-	//Mise à l'équilibre du système.
-		//for(int j=0; j<etapes; j++)	etapeMetropolis();
-
-	//Calcul des grandeurs utiles.
-		for(int j=0; j<etapes; j++)
-		{
-			energieMoy += energie;
-			sigmaEnergie += energie*energie;
-			momentMagMoy += momentMag;
-			sigmaMomentMag += momentMag*momentMag;
-			etapeMetropolis();
-		}
-
-		energieMoy = energieMoy/etapes;
-		momentMagMoy = momentMagMoy / etapes;
-		sigmaEnergie /= etapes;
-		sigmaMomentMag /= etapes;
-		sigmaEnergie -= energieMoy*energieMoy;
-		sigmaMomentMag -= momentMagMoy*momentMagMoy;
-
-	//Ecriture des valeurs moyennes, de Cv et ksi dans un fichier.
-		Imprimante::instance()->ecrire(temperature, champB, energieMoy, momentMagMoy
-			, sigmaEnergie/(temperature*kbT)
-			, sigmaMomentMag/(temperature*kbT));
-
-		champB+=step;
-
-		Imprimante::instance()->chargement(int(100*(i+1)/nbEtapes));
-	}
-}
 
 
