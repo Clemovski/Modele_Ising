@@ -1,6 +1,4 @@
 #include "Imprimante.h"
-#include <fstream>
-#include <string>
 
 
 //Définition de l'instance
@@ -42,7 +40,7 @@ void Imprimante::ecrire(double temperature, double champMag, double eMoy, double
 	fichierEcriture << temperature << "	" << champMag << "	" << eMoy << "	" << mMoy << "	" << cv << "	" << ksi << endl;
 }
 
-void Imprimante::lire(string nomFichier)
+map<string, double> Imprimante::lire(string nomFichier)
 {
 //Ouverture du fichier
 	fstream fichierLecture;
@@ -53,17 +51,20 @@ void Imprimante::lire(string nomFichier)
 		exit(1);
 	}
 
+	map<string, double> parametres;
+
 	string champ("");
 	double nombre=0.0;
 //Lecture
 	while(fichierLecture>>champ)
 	{
-		cout<<champ<<endl;
 		fichierLecture>>nombre;
-		cout<<nombre<<endl;
+		parametres.insert ( std::pair<string, double>(champ,nombre) );
 	}
 
 //Fermeture du fichier
 	fichierLecture.close();
+
+	return parametres;
 
 }
