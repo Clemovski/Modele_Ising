@@ -7,13 +7,18 @@
 
 //Change la température et tout ce qui va avec.
 void Solide::setTemperature(double var_temperature)
-	{
-		temperature = var_temperature;
-		kbT = temperature*8.6173303E-5;
-	}
+{
+	temperature = var_temperature;
+	kbT = temperature*8.6173303E-5;	//Constante de Boltzmann en eV/K
+}
 
 
-
+//Change le champ Magnétique et tout ce qui va avec.
+void Solide::setChampB(double var_champB)
+{
+	champB = var_champB;
+	champBmuB = champB*5.7883817555E-5;	//Magneton de Bohr en eV/T
+}
 
 
 //Fait évoluer le système de Tmin à Tmax et enregistre les données dans mesures.txt
@@ -72,7 +77,7 @@ void Solide::evolutionMagnetique(double bmin, double bmax,unsigned int nbEtapes)
 {
 	if(nbEtapes==0)	nbEtapes = abs(bmax-bmin);
 	double step = (bmax-bmin) / nbEtapes;
-	champB = bmin;
+	setChampB(bmin);
 
 //Evolution du système.
 	for(int i=0; i<nbEtapes; i++)
@@ -107,7 +112,7 @@ void Solide::evolutionMagnetique(double bmin, double bmax,unsigned int nbEtapes)
 			, abs(sigmaEnergie/(temperature*kbT))
 			, abs(sigmaMomentMag/(temperature*kbT)));
 
-		champB+=step;
+		setChampB(champB+step);
 
 		Imprimante::instance()->chargement(int(100*(i+1)/nbEtapes));
 	}

@@ -7,6 +7,7 @@ Imprimante* Imprimante::pInstance;
 Imprimante::Imprimante()
 {
 	nomfichierEcriture = "mesures.txt";
+
 	//Ouverture du fichier
 	fichierEcriture.open(nomfichierEcriture.c_str(), ios::out);
 	if(!fichierEcriture)

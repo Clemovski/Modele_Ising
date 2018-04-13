@@ -9,9 +9,9 @@ protected:
 	unsigned int limite;	//largeur-1. Redondant mais sert à accélérer le calcul.
 	double couplageJ;	//J
 	double champB;		//B
-	double permeabilite;	//µ = Permeabilite magnetique relative du materiau
 	double temperature;	//T = thermostat puisque le système est à l'équilibre. (ensemble canonique)
 	double kbT;		//kbT = Boltzmann*Temperature en eV. Redondant mais sert à accélérer le calcul.
+	double champBmuB;	//Magneton de Bohr * champB. Redondant mais sert à accélérer le calcul.
 
 	double energie;		//E Energie instantannée du solide
 	double energieMoy;	//Energie moyenne calculée
@@ -24,6 +24,7 @@ protected:
 	int etapes;		//Nombre d'étapes pour les boucles
 
 	void setTemperature(double var_temperature);
+	void setChampB(double var_champB);
 
 	//Fait changer de sens un spin du système selon la méthode métropolis. Une seule itération.
 	virtual void etapeMetropolis()=0;
@@ -31,13 +32,13 @@ protected:
 	virtual void initialisation()=0;
 
 public:
-	Solide(unsigned int largeur_var =2, double couplageJ_var =0, double permeabilite_var = 5000.0, double thermostat =300, double 			champB_var =0) : largeur(largeur_var), couplageJ(couplageJ_var), permeabilite(permeabilite_var), temperature(thermostat), 			champB(champB_var)
+	Solide(unsigned int largeur_var =2, double couplageJ_var =0, double thermostat =300, double champB_var =0) : largeur(largeur_var), couplageJ(couplageJ_var), temperature(thermostat), champB(champB_var)
 		{
 			kbT = temperature*8.6173303E-5;
+			champBmuB = champB*5.7883817555E-5;
 			limite = largeur-1;
 			srand (time(NULL));
 			etapes = 10000.0*largeur;
-			permeabilite *= 4*3.14159E-7;
 		}
 
 
