@@ -24,6 +24,9 @@ public:
 	Imprimante();
 	~Imprimante();
 
+	//Change le fichier d'écriture et ferme le précédent.
+	void setFichierEcriture(string nouveauFichier);
+
 	//Lit dans un fichier les paramètres qui devront être utilisés pour le programme.
 	map<string, double> lire(string nomFichierLecture);
 

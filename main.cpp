@@ -27,9 +27,18 @@ int main()
 	switch(static_cast<int>(parametres["Mode"])){
 	case 0 :
 		solide->evolutionThermique(parametres["Min"], parametres["Max"], 1000);
+		Imprimante::instance()->console("");
 		break;
 	case 1 :
+		Imprimante::instance()->console("Etape 1/3");
+		solide->evolutionMagnetique(0.0, parametres["Max"], 1000);
+		Imprimante::instance()->console("");
+		Imprimante::instance()->console("Etape 2/3");
+		solide->evolutionMagnetique(parametres["Max"], parametres["Min"], 1000);
+		Imprimante::instance()->console("");
+		Imprimante::instance()->console("Etape 3/3");
 		solide->evolutionMagnetique(parametres["Min"], parametres["Max"], 1000);
+		Imprimante::instance()->console("");
 		break;
 	default :
 		Imprimante::instance()->console("Mode non-valide. Veuillez choisir 0 pour évolution thermique ou 1 pour évolution magnétique dans le fichier parametres.txt");

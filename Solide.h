@@ -34,8 +34,8 @@ protected:
 public:
 	Solide(unsigned int largeur_var =2, double couplageJ_var =0, double thermostat =300, double champB_var =0) : largeur(largeur_var), couplageJ(couplageJ_var), temperature(thermostat), champB(champB_var)
 		{
-			kbT = temperature*8.6173303E-5;
-			champBmuB = champB*5.7883817555E-5;
+			kbT = temperature*8.6173303E-5;	//Constante de Boltzmann en ev/K
+			champBmuB = champB*5.7883817555E-5;	//Magneton de Bohr en ev/T
 			limite = largeur-1;
 			srand (time(NULL));
 			etapes = 10000.0*largeur;

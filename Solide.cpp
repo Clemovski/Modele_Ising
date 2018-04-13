@@ -1,9 +1,6 @@
 #include <stdlib.h>	//Pour l'utilisation de rand().
 #include "Solide.h"
 #include "Imprimante.h"	//Pour écrire les données dans un fichier.
-#include <math.h>	//Pour la valeur absolue
-
-
 
 //Change la température et tout ce qui va avec.
 void Solide::setTemperature(double var_temperature)
@@ -82,10 +79,7 @@ void Solide::evolutionMagnetique(double bmin, double bmax,unsigned int nbEtapes)
 //Evolution du système.
 	for(int i=0; i<nbEtapes; i++)
 	{
-		energieMoy = 0.0;
-		sigmaEnergie = 0.0;
-		momentMagMoy = 0.0;
-		sigmaMomentMag = 0.0;
+		energieMoy = sigmaEnergie = momentMagMoy = sigmaMomentMag = 0.0;
 
 	//Mise à l'équilibre du système.
 		//for(int j=0; j<etapes; j++)	etapeMetropolis();
@@ -107,7 +101,7 @@ void Solide::evolutionMagnetique(double bmin, double bmax,unsigned int nbEtapes)
 		sigmaEnergie -= energieMoy*energieMoy;
 		sigmaMomentMag -= momentMagMoy*momentMagMoy;
 
-	//Ecriture des valeurs moyennes, de Cv et ksi dans un fichier.
+	//Ecriture des valeurs moyennes, de Cv et xi dans un fichier.
 		Imprimante::instance()->ecrire(temperature, champB, energieMoy, momentMagMoy
 			, abs(sigmaEnergie/(temperature*kbT))
 			, abs(sigmaMomentMag/(temperature*kbT)));

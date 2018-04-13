@@ -1,4 +1,5 @@
 #include "Imprimante.h"
+#include <iomanip>
 
 
 //Définition de l'instance
@@ -17,7 +18,12 @@ Imprimante::Imprimante()
 	}
 
 	//On écrit les entêtes.
-	fichierEcriture << "#Temperature(K)	ChampB(T)	EnergieMoy(eV)	MomentMagMoyen	Cv(J/K)	Ksi" << endl;
+	fichierEcriture << setw(20) << "#Temperature(K)" << "	"
+	 << setw(20) << "ChampB(T)" << "	"
+	 << setw(20) << "EnergieMoy(eV)" << "	"
+	 << setw(20) << "MomentMagMoyen" << "	"
+	 << setw(20) << "Cv(eV/K)" << "	"
+	 << setw(20) << "Ksi" << endl;
 }
 
 void Imprimante::chargement(int pourcent)
@@ -38,7 +44,7 @@ Imprimante::~Imprimante()
 void Imprimante::ecrire(double temperature, double champMag, double eMoy, double mMoy,double cv, double ksi)
 {
 	//On écrit les valeurs.
-	fichierEcriture << temperature << "	" << champMag << "	" << eMoy << "	" << mMoy << "	" << cv << "	" << ksi << endl;
+	fichierEcriture << setw(20) << temperature << "	" << setw(20) << champMag << "	" << setw(20) << eMoy << "	" << setw(20) << mMoy << "	" << setw(20) << cv << "	" << setw(20) << ksi << endl;
 }
 
 map<string, double> Imprimante::lire(string nomFichier)
@@ -68,4 +74,29 @@ map<string, double> Imprimante::lire(string nomFichier)
 
 	return parametres;
 
+}
+
+
+
+
+void Imprimante::setFichierEcriture(string nouveauFichier)
+{
+	fichierEcriture.close();
+	nomfichierEcriture = nouveauFichier;
+
+	//Ouverture du fichier
+	fichierEcriture.open(nomfichierEcriture.c_str(), ios::out);
+	if(!fichierEcriture)
+	{
+		cout << "Fichier d\'ecriture foireux. Abanonnez le navire !" << endl;
+		exit(1);
+	}
+
+	//On écrit les entêtes.
+	fichierEcriture << setw(20) << "#Temperature(K)" << "	"
+	 << setw(20) << "ChampB(T)" << "	"
+	 << setw(20) << "EnergieMoy(eV)" << "	"
+	 << setw(20) << "MomentMagMoyen" << "	"
+	 << setw(20) << "Cv(eV/K)" << "	"
+	 << setw(20) << "Ksi" << endl;
 }

@@ -55,20 +55,18 @@ void Solide2D::initialisation()
 	double energieMag = 0.0;	//Energie due au champ B
 	double energieCoup = 0.0;	//Energie due au couplage entre les électrons
 
-	for(int i=0; i<limite; i++)	//Pour ne pas compter deux fois la première intéraction on observe la chaîne jusqu'à largeur-1.
+	for(int i=0; i<largeur; i++)
 	{
-		for(int j=0; j<limite; j++)
+		for(int j=0; j<largeur; j++)
 		{
 		//Calcul de l'énergie.
 			energieMag += element[i][j];
-			energieCoup += element[i][j]*(element[(i+limite) % largeur][j] + element[(i+1)%largeur][j]
-							+element[i][(j+limite) % largeur] + element[i][(j+1)%largeur]);
+			energieCoup += element[i][j]*(element[(i+1)%largeur][j] + element[i][(j+1)%largeur]);
 		}
 	}
-	energieMag += element[limite][limite];	//On rajoute le dernier élément qu'on a pas compté.
 	momentMag = energieMag;
 	energieMag*=champBmuB;
-	energieCoup*=couplageJ*4.135667662E-15;
+	energieCoup*=couplageJ;
 
 	energie = -(energieCoup+energieMag);
 }
