@@ -1,5 +1,6 @@
-#include <math.h>	//Pour l'exponentielle
+#include <cmath>	//Pour l'exponentielle
 #include "Solide2D.h"
+#include "Imprimante.h" //Pour ecrirePositionsSpin()
 
 
 void Solide2D::etapeMetropolis()
@@ -39,10 +40,10 @@ void Solide2D::etapeMetropolis()
 void Solide2D::initialisation()
 {
 //Remplissage initial
-	for(int i=0; i<largeur; i++)
+	for(unsigned int i=0; i<largeur; i++)
 	{
 		vector<char> buffer;	//Tableau qu'on accrochera à chaque ligne de element.
-		for(int j=0; j<largeur; j++)
+		for(unsigned int j=0; j<largeur; j++)
 		{
 			buffer.push_back((((rand()/double(RAND_MAX))<0.5)?-1:1) );	//On remplit avec des + ou -1 aléatoirement.
 		}
@@ -55,9 +56,9 @@ void Solide2D::initialisation()
 	double energieMag = 0.0;	//Energie due au champ B
 	double energieCoup = 0.0;	//Energie due au couplage entre les électrons
 
-	for(int i=0; i<largeur; i++)
+	for(unsigned int i=0; i<largeur; i++)
 	{
-		for(int j=0; j<largeur; j++)
+		for(unsigned int j=0; j<largeur; j++)
 		{
 		//Calcul de l'énergie.
 			energieMag += element[i][j];
@@ -73,3 +74,12 @@ void Solide2D::initialisation()
 
 
 
+void Solide2D::ecrirePositionsSpins()
+{
+    for(unsigned int x=0; x<largeur; x++){
+        for(unsigned int y=0; y<largeur; y++){
+            if(element[x][y]>0)  Imprimante::instance()->ecrirePosition(x, y);
+            //Eventuellement else Ecrire dans le fichier down.
+        }
+    }
+}

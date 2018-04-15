@@ -14,9 +14,12 @@ private:
 	void etapeMetropolis();
 	//Initialise le solide
 	void initialisation();
+    //Ecrit dans un fichier les positions des spins Up.
+    virtual void ecrirePositionsSpins();
+    
 
 public:
-	Solide1D(unsigned int largeur_var =2, double couplageJ_var =0, double thermostat =0, double 			champB_var =0) : Solide(largeur_var, couplageJ_var, thermostat, champB_var)
+	Solide1D(unsigned int largeur_var =2, double couplageJ_var =0, double thermostat =0, double champB_var =0) : Solide(largeur_var, couplageJ_var, thermostat, champB_var)
 		{ initialisation(); }
 	~Solide1D()	{}
 };

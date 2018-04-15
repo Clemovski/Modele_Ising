@@ -1,5 +1,6 @@
-#include <math.h>	//Pour l'exponentielle et la valeur absolue
+#include <cmath>	//Pour l'exponentielle et la valeur absolue
 #include "Solide1D.h"
+#include "Imprimante.h" //Pour ecrirePositionsSpin()
 
 
 void Solide1D::etapeMetropolis()
@@ -35,7 +36,7 @@ void Solide1D::etapeMetropolis()
 void Solide1D::initialisation()
 {
 //Remplissage initial
-	for(int i=0; i<largeur; i++)	{ element.push_back(((rand()/double(RAND_MAX))<0.5)?-1:1); }	//On remplit avec des + ou -1 aléatoirement.
+	for(unsigned int i=0; i<largeur; i++)	{ element.push_back(((rand()/double(RAND_MAX))<0.5)?-1:1); }	//On remplit avec des + ou -1 aléatoirement.
 
 //Calcul des grandeurs initiales
 	momentMag = 0.0;
@@ -43,7 +44,7 @@ void Solide1D::initialisation()
 	double energieMag = 0.0;	//Energie due au champ B
 	double energieCoup = 0.0;	//Energie due au couplage entre les électrons
 
-	for(int i=0; i<largeur; i++)
+	for(unsigned int i=0; i<largeur; i++)
 	{
 	//Calcul de l'énergie.
 		energieMag += element[i];
@@ -60,7 +61,10 @@ void Solide1D::initialisation()
 
 
 
-
-
-
-
+void Solide1D::ecrirePositionsSpins()
+{
+    for(unsigned int x=0; x<largeur; x++){
+        if(element[x]>0)  Imprimante::instance()->ecrirePosition(x);
+        //Eventuellement else Ecrire dans le fichier down.
+    }
+}

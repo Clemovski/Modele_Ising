@@ -1,5 +1,7 @@
-#include <math.h>	//Pour l'exponentielle
+#include <cmath>	//Pour l'exponentielle
 #include "Solide3D.h"
+#include "Imprimante.h" //Pour ecrirePositionsSpin()
+
 
 void Solide3D::etapeMetropolis()
 {
@@ -39,13 +41,13 @@ void Solide3D::etapeMetropolis()
 void Solide3D::initialisation()
 {
 //Remplissage initial
-	for(int i=0; i<largeur; i++)
+	for(unsigned int i=0; i<largeur; i++)
 	{
-		vector<vector<char>> bufferUn;	//Tableau qu'on accrochera à chaque ligne de element.
-		for(int j=0; j<largeur; j++)
+		vector< vector<char> > bufferUn;	//Tableau qu'on accrochera à chaque ligne de element.
+		for(unsigned int j=0; j<largeur; j++)
 		{
 			vector<char> bufferDeux;
-			for(int k=0; k<largeur; k++)
+			for(unsigned int k=0; k<largeur; k++)
 			{
 				bufferDeux.push_back((((rand()/double(RAND_MAX))<0.5)?-1:1) );	//On remplit avec des + ou -1 aléatoirement.
 			}
@@ -60,17 +62,17 @@ void Solide3D::initialisation()
 	double energieMag = 0.0;	//Energie due au champ B
 	double energieCoup = 0.0;	//Energie due au couplage entre les électrons
 
-	for(int i=0; i<largeur; i++)
+	for(unsigned int i=0; i<largeur; i++)
 	{
-		for(int j=0; j<largeur; j++)
+		for(unsigned int j=0; j<largeur; j++)
 		{
-			for(int k=0; k<largeur; k++)
+			for(unsigned int k=0; k<largeur; k++)
 			{
 			//Calcul de l'énergie.
 				energieMag += element[i][j][k];
 				energieCoup += element[i][j][k]*(element[(i+1)%largeur][j][k]
-								+ element[i][(j+1)%largeur][k]
-								+ element[i][j][(k+1)%largeur]);
+                                                + element[i][(j+1)%largeur][k]
+                                                + element[i][j][(k+1)%largeur]);
 			}
 		}
 	}
@@ -83,3 +85,15 @@ void Solide3D::initialisation()
 
 
 
+
+void Solide3D::ecrirePositionsSpins()
+{
+    for(unsigned int x=0; x<largeur; x++){
+        for(unsigned int y=0; y<largeur; y++){
+            for(unsigned int z=0; z<largeur; z++){
+                if(element[x][y][z]>0)  Imprimante::instance()->ecrirePosition(x, y, z);
+                //Eventuellement else Ecrire dans le fichier down.
+            }
+        }
+    }
+}

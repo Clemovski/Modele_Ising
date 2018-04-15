@@ -1,4 +1,7 @@
-#include <stdlib.h>	//Pour l'utilisation de rand().
+#include <stdlib.h> //Pour l'utilisation de rand().
+#include <cmath>    //Pour abs()
+#include <string>   //Pour setFichierWeiss().
+#include <stdio.h>  //Pour convertir int en string
 #include "Solide.h"
 #include "Imprimante.h"	//Pour écrire les données dans un fichier.
 
@@ -26,18 +29,15 @@ void Solide::evolutionThermique(double tmin, double tmax,unsigned int nbEtapes)
 	setTemperature(tmin);
 
 //Evolution du système.
-	for(int i=0; i<nbEtapes; i++)
+	for(unsigned int i=0; i<nbEtapes; i++)
 	{
-		energieMoy = 0.0;
-		sigmaEnergie = 0.0;
-		momentMagMoy = 0.0;
-		sigmaMomentMag = 0.0;
+		energieMoy = sigmaEnergie = momentMagMoy = sigmaMomentMag = 0.0;
 
 	//Mise à l'équilibre du système.
 		//for(int j=0; j<etapes; j++)	etapeMetropolis();
 
 	//Calcul des grandeurs utiles.
-		for(int j=0; j<etapes; j++)
+		for(unsigned int j=0; j<etapes; j++)
 		{
 			energieMoy += energie;
 			sigmaEnergie += energie*energie;	//Calcule <E²> pour l'instant.
@@ -54,7 +54,7 @@ void Solide::evolutionThermique(double tmin, double tmax,unsigned int nbEtapes)
 		sigmaMomentMag -= momentMagMoy*momentMagMoy;
 
 	//Ecriture des valeurs moyennes, de Cv et ksi dans un fichier.
-		Imprimante::instance()->ecrire(temperature, champB, energieMoy, momentMagMoy
+		Imprimante::instance()->ecrireMesures(temperature, champB, energieMoy, momentMagMoy
 			, abs(sigmaEnergie/(temperature*kbT))
 			, abs(sigmaMomentMag/(temperature*kbT)));
 
@@ -72,12 +72,12 @@ void Solide::evolutionThermique(double tmin, double tmax,unsigned int nbEtapes)
 //Fait évoluer le système de Bmin à Bmax et enregistre les données dans mesures.txt
 void Solide::evolutionMagnetique(double bmin, double bmax,unsigned int nbEtapes)
 {
-	if(nbEtapes==0)	nbEtapes = abs(bmax-bmin);
+	if(nbEtapes==0)	nbEtapes = abs(bmax-bmin) * 100.0;
 	double step = (bmax-bmin) / nbEtapes;
 	setChampB(bmin);
 
 //Evolution du système.
-	for(int i=0; i<nbEtapes; i++)
+	for(unsigned int i=0; i<nbEtapes; i++)
 	{
 		energieMoy = sigmaEnergie = momentMagMoy = sigmaMomentMag = 0.0;
 
@@ -85,7 +85,7 @@ void Solide::evolutionMagnetique(double bmin, double bmax,unsigned int nbEtapes)
 		//for(int j=0; j<etapes; j++)	etapeMetropolis();
 
 	//Calcul des grandeurs utiles.
-		for(int j=0; j<etapes; j++)
+		for(unsigned int j=0; j<etapes; j++)
 		{
 			energieMoy += energie;
 			sigmaEnergie += energie*energie;
@@ -102,12 +102,21 @@ void Solide::evolutionMagnetique(double bmin, double bmax,unsigned int nbEtapes)
 		sigmaMomentMag -= momentMagMoy*momentMagMoy;
 
 	//Ecriture des valeurs moyennes, de Cv et xi dans un fichier.
-		Imprimante::instance()->ecrire(temperature, champB, energieMoy, momentMagMoy
+		Imprimante::instance()->ecrireMesures(temperature, champB, energieMoy, momentMagMoy
 			, abs(sigmaEnergie/(temperature*kbT))
 			, abs(sigmaMomentMag/(temperature*kbT)));
+
+        if(i%10==0)
+        {
+            //Ecriture de la position des spins.
+            ecrirePositionsSpins();
+            //On crée un nouveau fichier Weiss.
+            Imprimante::instance()->nextFichierWeiss();
+        }
 
 		setChampB(champB+step);
 
 		Imprimante::instance()->chargement(int(100*(i+1)/nbEtapes));
 	}
 }
+
