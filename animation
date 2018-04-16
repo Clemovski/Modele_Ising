@@ -1,0 +1,9 @@
+set terminal gif animate delay 10
+set output 'domainesDeWeiss.gif'
+stats 'Weiss.txt' nooutput
+set xrange [0:400]
+set yrange [0:400]
+
+do for [i=0:int(STATS_blocks)-2] {
+  plot 'Weiss.txt' index i
+}

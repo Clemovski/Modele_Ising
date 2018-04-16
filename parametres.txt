@@ -1,0 +1,10 @@
+Dimension   2
+Mode        2
+Largeur     400
+Temperature 70
+CouplageJ   4E-3
+ChampB      0
+Bmin        -2
+Bmax        2
+Tmin        1000
+Tmax        1
