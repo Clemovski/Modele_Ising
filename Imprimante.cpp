@@ -9,7 +9,7 @@ Imprimante* Imprimante::pInstance;
 Imprimante::Imprimante()
 {
 //Initialisation du fichier mesures.txt
-	nomFichierMesures = "Données/mesures.txt";
+	nomFichierMesures = "mesures.txt";
 
 	//Ouverture du fichier
 	fichierMesures.open(nomFichierMesures.c_str(), ios::out);
@@ -30,7 +30,7 @@ Imprimante::Imprimante()
 
 //Initialisation du fichier Weiss.txt
     compteurWeiss = 0;
-	nomFichierWeiss = "Données/Weiss.txt";
+	nomFichierWeiss = "Weiss.txt";
 
 	//Ouverture du fichier
 	fichierWeiss.open(nomFichierWeiss.c_str(), ios::out);
@@ -124,7 +124,7 @@ map<string, double> Imprimante::lire(string nomFichier)
 void Imprimante::setFichierMesures(string nouveauFichier)
 {
 	fichierMesures.close();
-	nomFichierMesures = "Données/"+nouveauFichier;
+	nomFichierMesures = nouveauFichier;
 
 	//Ouverture du fichier
 	fichierMesures.open(nomFichierMesures.c_str(), ios::out);
