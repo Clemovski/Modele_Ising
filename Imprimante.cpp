@@ -171,6 +171,7 @@ void Imprimante::ecrirePosition(unsigned int x, unsigned int y)
 {
     fichierWeiss << setw(20) << x << "	"
 	 << setw(20) << y << endl;
+	cout << x <<endl;
 }
 
 
