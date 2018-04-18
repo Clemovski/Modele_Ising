@@ -3,55 +3,52 @@
 
 \subsection{Fonctionnement du modèle d'Ising}
 
-Comme expliqué en introduction, le modèle d'Ising consiste en un assemblage d'éléments possédant un moment magnétique positif ou négatif.
+Comme expliqué en introduction, le modèle d'Ising consiste en un assemblage d'éléments possédant chacun un moment magnétique positif ou négatif. ($\pm 1$ dans notre cas)\\
 
-Dans le cas physique qui nous intéresse le système représente un système thermodynamique : un solide cubique.
-Les moments magnétiques sont ceux des électrons de valence qui composent le solide.
+Dans le cas physique qui nous intéresse cet ensemble d'élément représente un système thermodynamique : un solide cubique dans le cas à 3 dimensions.\\
+Les moments magnétiques sont ceux des électrons de valence qui composent le solide.\\
+\\
+Ces moments magnétiques sont influençables par leur voisins (nous nous limiterons aux premiers voisin dans cette étude) et par le champ magnétique auquel ils sont soumis.\\
+\\
+Pour négliger les effets de bord, on utilise des conditions aux limites périodiques. C'est à dire que les éléments en bout de ligne agissent comme s'il étaient voisins des éléments en début de ligne.\\
+
 
 
 
 
 On peut mettre des mots en \emph{italique}, 
-en \textsc{petites Majuscules} ou 
-en \texttt{largeur fixe (machine à écrire)}.
-
-Voici un deuxième paragraphe avec une formule mathématique simple : $e = mc^2$.
-
 
 \subsubsection{Observations attendues}
-
-\foreignlanguage{english}{Do you speak French? Does anybody here speak french?}
+\item Évolution de la chaleur spécifique du milieu en fonction de la température ou du champ magnétique.;
+\item Évolution de la susceptibilité magnétique en fonction de la température ou du champ magnétique.;
+\item Mise en évidence de la transition de phase.;
+\item Évolution de la température critique en fonction de la taille du réseau ou du champ magnétique.;
+\item Mise en évidence des domaines de Weiss.;
+\item Phénomène d'hystérésis magnétique.;
 
 
 \subsection{Simulation informatique}
-
-\begin{itemize}
-\item Liste classique ;
-\item un élément ;
-\item et un autre élément.
-\end{itemize}
-\vspace{\parskip} % espace entre paragraphes
-
-\begin{enumerate}
-\item Une liste numéroté
-\item deux
-\item trois
-\end{enumerate}
-\vspace{\parskip}
-
-\begin{description}
-\item[Description] C'est bien pour des définitions.
-\item[Deux] Ou pour faire un liste spéciale.
-\end{description}
-\vspace{\parskip}
 
 \subsubsection{La méthode Métropolis}
 
 \subsubsection{Structure et fonctionnement du programme}
 
-\begin{figure}[!ht]
-    \center
-    \includegraphics[]{./images/exemple.jpg}
-    \caption{taille original}
-    \label{Diagramme UML du programme}
-\end{figure}
+
+Le programme possède 3 classes de solides : 1D, 2D et 3D. Ces trois classes dérivent d'une classe mère Solide qui contient les méthodes et attributs qui sont communes à toutes les dimensions.\\
+\\
+Le programme utilise une \emph{Factory} (SolideFactory) qui lui permet d'instancier un solide de n'importe-quelle dimension à l’exécution et d'ensuite pourvoir le manipuler sans avoir à se soucier de connaître cette dimension.\\
+Cette \emph{Factory} est un \emph{Singleton} car une seule est nécessaire, et en avoir plusieurs pourrait poser plus d'ennuis qu'autre-chose.\\
+\\
+L'Imprimante enfin est l'interface avec l'utilisateur. C'est un \emph{Singleton} également et elle remplit les fonctions suivantes :\\
+\begin{itemize}
+\item Lecture des paramètres du solide à instancier et les conditions dans lequel le faire évoluer.;
+\item Ecriture des données récoltées lors de la simulation dans les fichiers mesures.txt et Weiss.txt;
+\item Génération des script à utiliser dans Gnuplot pour visualiser les données.;
+\end{itemize}
+\vspace{\parskip} % espace entre paragraphes
+
+Précisions :\\
+La classe Solide possède des attributs redondants tels que champB et muBchampB ou temperature et kbT. Ces redondances servent à gagner un peu de temps de calcul en ne recalculant pas le produit de ces deux valeurs à chaque itération.\\
+Les valeurs de la constante de Boltzmann et du magnéton de Bohr sont codées en dur car on part du principe qu'elle ne sont pas sujette à changer du jour au len-demain.\\
+Toutes les grandeurs utilisées dans le programme sont homogénéisées de telle sorte que le Hamiltonien soit exprimé en électron-Volts.
+
