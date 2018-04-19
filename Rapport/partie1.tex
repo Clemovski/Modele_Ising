@@ -12,20 +12,21 @@ Ces moments magnétiques sont influençables par leur voisins (nous nous limiter
 \\
 Pour négliger les effets de bord, on utilise des conditions aux limites périodiques. C'est à dire que les éléments en bout de ligne agissent comme s'il étaient voisins des éléments en début de ligne.\\
 \\
-%\begin{equation}
-%H = -J \sum_{i=1}^{N_{spins}} \sum_{<j>}^{} S_{i}S_{j} - \mu_{B} \sum_{i=1}^{N_{spins}} Si
-%\end{equation}
+Le Hamiltonien qui décrit le système est donné par
+\begin{equation}
+H = -J \sum_{i=1}^{N_{spins}} \sum_{<j>}^{} S_{i}S_{j} - \mu_{B} \sum_{i=1}^{N_{spins}} Si
+\end{equation}
+Dans notre cas le hamiltonien a été homogénéisé en électron-Volts. Ce qui signifie que le couplage J a été implicitement multiplié par la constante de Planck, et que le magnéton de Bohr est multiplié au champ magnétique de l'environnement.
 
 
 
+\subsection{Observations attendues}
+Évolution de la chaleur spécifique :\\
 
-\subsubsection{Observations attendues}
-\item Évolution de la chaleur spécifique :\\
 
-
-\item Évolution de la susceptibilité magnétique en fonction de la température ou du champ magnétique.;
-\item Mise en évidence de la transition de phase.;
-\item Évolution de la température critique en fonction de la taille du réseau ou du champ magnétique.;
+%\item Évolution de la susceptibilité magnétique en fonction de la température ou du champ magnétique.;
+%\item Mise en évidence de la transition de phase.;
+%\item Évolution de la température critique en fonction de la taille du réseau ou du champ magnétique.;
 
 
 \textbf{Mise en évidence des domaines de Weiss :}\\
@@ -52,10 +53,10 @@ Pour ce faire on va piocher un spin au hasard dans le système et envisager de l
 On définit une probabilité pour le spin de se retourner et on la compare à une valeur aléatoire.\\
 Cette probabilité est donnée par la loi de Maxwell Boltzmann :\\
 \begin{equation}
-e^{- \dfrac{\Delta Ê}{k_B T}}
+e^{- \frac{\Delta E}{k_B T}}
 \end{equation}
 où $\Delta E$ représente la différence d'énergie impliquée par le retournement du spin.\\
-Cela correspond physiquement à une "bataille" entre l'énergie impliquée par les effets de spins (dans l'équation du Hamiltonien) avec l'agitation thermique. La probabilité de retournement est en faveur du changement d'énergie le plus petit.\\
+Cela correspond physiquement à une "bataille" entre l'énergie impliquée par les effets de spins (dans l'équation du Hamiltonien) avec l'agitation thermique. La probabilité de retournement est en faveur du changement d'énergie le plus petit possible.\\
 
 
 \subsubsection{Structure et fonctionnement du programme}
