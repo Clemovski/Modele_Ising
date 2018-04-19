@@ -8,24 +8,41 @@ Comme expliqué en introduction, le modèle d'Ising consiste en un assemblage d'
 Dans le cas physique qui nous intéresse cet ensemble d'élément représente un système thermodynamique : un solide cubique dans le cas à 3 dimensions.\\
 Les moments magnétiques sont ceux des électrons de valence qui composent le solide.\\
 \\
-Ces moments magnétiques sont influençables par leur voisins (nous nous limiterons aux premiers voisin dans cette étude) et par le champ magnétique auquel ils sont soumis.\\
+Ces moments magnétiques sont influençables par leur voisins (nous nous limiterons aux premiers voisin dans cette étude) et par le champ magnétique auquel est soumis le système.\\
 \\
 Pour négliger les effets de bord, on utilise des conditions aux limites périodiques. C'est à dire que les éléments en bout de ligne agissent comme s'il étaient voisins des éléments en début de ligne.\\
+\\
+%\begin{equation}
+%H = -J \sum_{i=1}^{N_{spins}} \sum_{<j>}^{} S_{i}S_{j} - \mu_{B} \sum_{i=1}^{N_{spins}} Si
+%\end{equation}
 
 
 
-
-
-On peut mettre des mots en \emph{italique}, 
 
 \subsubsection{Observations attendues}
-\item Évolution de la chaleur spécifique du milieu en fonction de la température ou du champ magnétique.;
+\item Évolution de la chaleur spécifique :\\
+
+
 \item Évolution de la susceptibilité magnétique en fonction de la température ou du champ magnétique.;
 \item Mise en évidence de la transition de phase.;
 \item Évolution de la température critique en fonction de la taille du réseau ou du champ magnétique.;
-\item Mise en évidence des domaines de Weiss.;
-\item Phénomène d'hystérésis magnétique.;
 
+
+\emph{Mise en évidence des domaines de Weiss :}\\
+Dans un matériau ferromagnétique, la constante de couplage J est positive et incite les spins à s'aligner avec leurs voisins.\\
+En dessous de la température critique, les éléments ont alors tendance à former des zones de même spin. Ces zones sont appelées Domaines de Weiss du nom de Pierre-Ernest Weiss qui a prédit ce phénomène.\\
+
+
+\emph{Phénomène d'hystérésis magnétique :}\\
+Lorsqu'on applique un champ magnétique au système, on incite les spins à suivre ce champ et ainsi à modifier le moment magnétique du matériau. C'est ainsi que le matériau est aimanté.\\
+Cette évolution du moment induit est linéaire.\\
+En appliquant un fort champ magnétique, on peut imposer un sens d'orientation à la quasi-totalité des spins. On arrive alors à une saturation où le moment du système n'évoluera plus.\\
+\\
+On peut penser que ce phénomène est réversible mais ce n'est pas le cas : Le couplage oblige les spins à garder l'orientation de leurs voisins et cette saturation n'est pas brisée avant d'atteindre un champ suffisamment fort dans l'autre sens. Le même phénomène se produit alors "en négatif".\\
+\\
+Le champ nécessaire pour ramener le solide à une aimantation nulle est appelé "coercitif" et l'aimantation que le matériau conserve lorsque l'excitation magnétique est revenue à zéro est dite "rémanente".\\
+
+\vspace{\parskip} % espace entre paragraphes
 
 \subsection{Simulation informatique}
 
