@@ -28,12 +28,12 @@ Pour négliger les effets de bord, on utilise des conditions aux limites périod
 \item Évolution de la température critique en fonction de la taille du réseau ou du champ magnétique.;
 
 
-\emph{Mise en évidence des domaines de Weiss :}\\
+\textbf{Mise en évidence des domaines de Weiss :}\\
 Dans un matériau ferromagnétique, la constante de couplage J est positive et incite les spins à s'aligner avec leurs voisins.\\
 En dessous de la température critique, les éléments ont alors tendance à former des zones de même spin. Ces zones sont appelées Domaines de Weiss du nom de Pierre-Ernest Weiss qui a prédit ce phénomène.\\
 
 
-\emph{Phénomène d'hystérésis magnétique :}\\
+\textbf{Phénomène d'hystérésis magnétique :}\\
 Lorsqu'on applique un champ magnétique au système, on incite les spins à suivre ce champ et ainsi à modifier le moment magnétique du matériau. C'est ainsi que le matériau est aimanté.\\
 Cette évolution du moment induit est linéaire.\\
 En appliquant un fort champ magnétique, on peut imposer un sens d'orientation à la quasi-totalité des spins. On arrive alors à une saturation où le moment du système n'évoluera plus.\\
@@ -47,6 +47,16 @@ Le champ nécessaire pour ramener le solide à une aimantation nulle est appelé
 \subsection{Simulation informatique}
 
 \subsubsection{La méthode Métropolis}
+Dans cette méthode on va faire évoluer le système à chaque instant, et ce indépendamment de ses états antérieurs.\\
+Pour ce faire on va piocher un spin au hasard dans le système et envisager de le retourner en tenant compte des conditions présentes :\\
+On définit une probabilité pour le spin de se retourner et on la compare à une valeur aléatoire.\\
+Cette probabilité est donnée par la loi de Maxwell Boltzmann :\\
+\begin{equation}
+e^{- \dfrac{\Delta Ê}{k_B T}}
+\end{equation}
+où $\Delta E$ représente la différence d'énergie impliquée par le retournement du spin.\\
+Cela correspond physiquement à une "bataille" entre l'énergie impliquée par les effets de spins (dans l'équation du Hamiltonien) avec l'agitation thermique. La probabilité de retournement est en faveur du changement d'énergie le plus petit.\\
+
 
 \subsubsection{Structure et fonctionnement du programme}
 
@@ -58,9 +68,9 @@ Cette \emph{Factory} est un \emph{Singleton} car une seule est nécessaire, et e
 \\
 L'Imprimante enfin est l'interface avec l'utilisateur. C'est un \emph{Singleton} également et elle remplit les fonctions suivantes :\\
 \begin{itemize}
-\item Lecture des paramètres du solide à instancier et les conditions dans lequel le faire évoluer.;
-\item Ecriture des données récoltées lors de la simulation dans les fichiers mesures.txt et Weiss.txt;
-\item Génération des script à utiliser dans Gnuplot pour visualiser les données.;
+\item Lecture des paramètres du solide à instancier et les conditions dans lequel le faire évoluer.
+\item Ecriture des données récoltées lors de la simulation dans les fichiers mesures.txt et Weiss.txt
+\item Génération des script à utiliser dans Gnuplot pour visualiser les données.
 \end{itemize}
 \vspace{\parskip} % espace entre paragraphes
 
